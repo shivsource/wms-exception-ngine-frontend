@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      target: development
+    image: wms-exception-ngine-frontend:dev
+    container_name: wms-exception-ngine-frontend
+    env_file:
+      - .env
+    ports:
+      - '6001:6001'
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - tj-net
+    restart: unless-stopped
+
+networks:
+  tj-net:
+    external: true
