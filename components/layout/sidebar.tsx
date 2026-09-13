@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Boxes } from "lucide-react";
+import { Boxes, LogOut } from "lucide-react";
+import { useAuth } from "@/features/auth/auth-context";
 import { cn } from "@/lib/utils";
 import { NAV_SECTIONS } from "./nav-config";
 import { isNavItemActive } from "./use-active-nav";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { email, logout } = useAuth();
 
   return (
     <aside className="hidden w-64 shrink-0 flex-col border-r bg-sidebar text-sidebar-foreground md:flex">
@@ -52,8 +54,22 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="border-t px-4 py-3 text-[11px] text-muted-foreground">
-        WMS Intelligence · v0.1 MVP
+      <div className="border-t px-4 py-3">
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <span className="truncate text-xs font-medium" title={email ?? undefined}>
+            {email}
+          </span>
+          <button
+            type="button"
+            onClick={logout}
+            title="Logout"
+            className="inline-flex items-center gap-1 rounded-md px-1.5 py-1 text-xs font-medium text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          >
+            <LogOut className="h-3.5 w-3.5" aria-hidden />
+            Logout
+          </button>
+        </div>
+        <div className="text-[11px] text-muted-foreground">WMS Intelligence · v0.1 MVP</div>
       </div>
     </aside>
   );
